@@ -15,12 +15,12 @@ points = []
 for feed in [match.value for match in expr.find(d)]:
   feed.pop('wifi')
   body = {}
-  body['measurement'] = ubibot
+  body['measurement'] = 'ubibot'
   body['tags'] = {'channel': channel_id}
   body['time'] = feed.pop('created_at')
   body['fields'] = feed
   points.append(body)
 
-client = InfluxDBClient(influxhost, 8086, 'ubibot', 'ubibot', 'ubibot')
+client = InfluxDBClient('neon', 8086, 'ubibot', 'ubibot', 'ubibot')
 client.create_database('ubibot')
 client.write_points(points)
