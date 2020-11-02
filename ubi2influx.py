@@ -7,8 +7,10 @@ channel_id = "20002"
 acc_key = ""
 response = urllib.urlopen(f"https://api.ubibot.com/channels/{channel_id}/feeds.json?parameters&account_key={acc_key}")
 d = json.loads(response.read())
-expr = parse('$.feeds[*]')
+if parse('$.result').find(d) != 'success':
+	print('result fail')
 
+expr = parse('$.feeds[*]')
 points = []
 for feed in [match.value for match in expr.find(d)]:
   feed.pop('wifi')
