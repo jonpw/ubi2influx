@@ -3,12 +3,16 @@ from jsonpath_ng import jsonpath, parse
 import influxdb
 import json
 import time
+import datetime
 
 #channel_id = "20002"
 channels = ["20002", "20003", "20004", "20005", "20006", "20007", "20008", "20009", "20010", "20321", "18378"]
 acc_key = "f90c94103d04abedaad2edebc38a3662"
+olddate = datetime.datetime.strftime(datetime.datetime.utcnow()-datetime.timedelta(3), "%Y-%m-%d")
+oldtime = datetime.datetime.strftime(datetime.datetime.utcnow()-datetime.timedelta(3), "%H:%M:%S")
+
 for channel_id in channels:
-  response = urllib.request.urlopen(f"https://api.ubibot.com/channels/{channel_id}/feeds.json?parameters&account_key={acc_key}&start=2020-01-01%2000:00:00")
+  response = urllib.request.urlopen(f"https://api.ubibot.com/channels/{channel_id}/feeds.json?parameters&account_key={acc_key}&start={olddate}%20{oldtime}")
   d = json.loads(response.read())
   if parse('$.result').find(d) != 'success':
     print('result fail')
